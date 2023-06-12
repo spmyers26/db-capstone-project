@@ -26,15 +26,9 @@ CREATE TABLE `bookings` (
   `bookingID` int NOT NULL,
   `bookingDate` date NOT NULL,
   `tableNumber` int NOT NULL,
-  `customerID` int NOT NULL,
-  `menuID` int NOT NULL,
   `staffID` int NOT NULL,
   PRIMARY KEY (`bookingID`),
-  KEY `customerID_idx` (`customerID`),
-  KEY `menuID_idx` (`menuID`),
   KEY `staffID_idx` (`staffID`),
-  CONSTRAINT `customerID` FOREIGN KEY (`customerID`) REFERENCES `customer_details` (`customerID`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `menuID` FOREIGN KEY (`menuID`) REFERENCES `menu` (`menuID`),
   CONSTRAINT `staffID` FOREIGN KEY (`staffID`) REFERENCES `staff_information` (`staffID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -83,11 +77,11 @@ DROP TABLE IF EXISTS `menu`;
 CREATE TABLE `menu` (
   `menuID` int NOT NULL,
   `cuisine` varchar(255) NOT NULL,
-  `starters` varchar(45) NOT NULL,
-  `courses` varchar(45) NOT NULL,
-  `drinks` varchar(45) NOT NULL,
-  `desserts` varchar(45) NOT NULL,
-  PRIMARY KEY (`menuID`)
+  `menuName` varchar(45) NOT NULL,
+  `menuItemsID` int NOT NULL,
+  PRIMARY KEY (`menuID`),
+  KEY `menuItemsID_idx` (`menuItemsID`),
+  CONSTRAINT `menuItemsID` FOREIGN KEY (`menuItemsID`) REFERENCES `menu_items` (`menuItemsID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -109,7 +103,6 @@ DROP TABLE IF EXISTS `menu_items`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `menu_items` (
   `menuItemsID` int NOT NULL,
-  `menu_itemscol` varchar(45) DEFAULT NULL,
   `starters` varchar(45) NOT NULL,
   `courses` varchar(45) NOT NULL,
   `drinks` varchar(45) NOT NULL,
@@ -163,13 +156,19 @@ CREATE TABLE `orders` (
   `orderDate` date NOT NULL,
   `quantity` int NOT NULL,
   `totalCost` decimal(6,2) NOT NULL,
+  `customerID` int NOT NULL,
   `deliveryID` int NOT NULL,
   `bookingID` int NOT NULL,
+  `menuID` int NOT NULL,
   PRIMARY KEY (`orderID`),
   KEY `deliveryID_idx` (`deliveryID`),
   KEY `bookingID_idx` (`bookingID`),
+  KEY `customerID_idx` (`customerID`),
+  KEY `menuID_idx` (`menuID`),
   CONSTRAINT `bookingID` FOREIGN KEY (`bookingID`) REFERENCES `bookings` (`bookingID`),
-  CONSTRAINT `deliveryID` FOREIGN KEY (`deliveryID`) REFERENCES `order_delivery_status` (`deliveryID`) ON DELETE CASCADE ON UPDATE CASCADE
+  CONSTRAINT `customerID` FOREIGN KEY (`customerID`) REFERENCES `customer_details` (`customerID`),
+  CONSTRAINT `deliveryID` FOREIGN KEY (`deliveryID`) REFERENCES `order_delivery_status` (`deliveryID`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `menuID` FOREIGN KEY (`menuID`) REFERENCES `menu` (`menuID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -215,4 +214,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2023-06-12 15:13:30
+-- Dump completed on 2023-06-12 16:28:21
