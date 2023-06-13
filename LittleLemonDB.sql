@@ -167,7 +167,7 @@ CREATE TABLE `orders` (
   KEY `menuID_idx` (`menuID`),
   CONSTRAINT `bookingID` FOREIGN KEY (`bookingID`) REFERENCES `bookings` (`bookingID`),
   CONSTRAINT `customerID` FOREIGN KEY (`customerID`) REFERENCES `customer_details` (`customerID`),
-  CONSTRAINT `deliveryID` FOREIGN KEY (`deliveryID`) REFERENCES `order_delivery_status` (`deliveryID`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `deliveryID` FOREIGN KEY (`deliveryID`) REFERENCES `order_delivery_status` (`deliveryID`),
   CONSTRAINT `menuID` FOREIGN KEY (`menuID`) REFERENCES `menu` (`menuID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -214,4 +214,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2023-06-12 16:28:21
+-- Dump completed on 2023-06-13 16:12:48
