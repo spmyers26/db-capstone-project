@@ -26,11 +26,11 @@ CREATE TABLE `bookings` (
   `bookingID` int NOT NULL AUTO_INCREMENT,
   `bookingDate` date NOT NULL,
   `tableNumber` int NOT NULL,
-  `customerID` int DEFAULT NULL,
+  `staffID` int NOT NULL,
   PRIMARY KEY (`bookingID`),
-  KEY `fk_customerID` (`customerID`),
-  CONSTRAINT `bookings_ibfk_1` FOREIGN KEY (`customerID`) REFERENCES `customer_details` (`customerID`)
-) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb3;
+  KEY `staffID_idx` (`staffID`),
+  CONSTRAINT `staffID` FOREIGN KEY (`staffID`) REFERENCES `staff_information` (`staffID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -162,6 +162,7 @@ CREATE TABLE `orders` (
   `quantity` int NOT NULL,
   `totalCost` decimal(6,2) NOT NULL,
   `customerID` int NOT NULL,
+  `customerID` int NOT NULL,
   `deliveryID` int NOT NULL,
   `bookingID` int NOT NULL,
   `menuID` int NOT NULL,
@@ -172,6 +173,8 @@ CREATE TABLE `orders` (
   KEY `menuID_idx` (`menuID`),
   KEY `staffID` (`staffID`),
   KEY `bookingID_idx` (`bookingID`),
+  KEY `customerID_idx` (`customerID`),
+  KEY `menuID_idx` (`menuID`),
   CONSTRAINT `bookingID` FOREIGN KEY (`bookingID`) REFERENCES `bookings` (`bookingID`),
   CONSTRAINT `customerID` FOREIGN KEY (`customerID`) REFERENCES `customer_details` (`customerID`),
   CONSTRAINT `deliveryID` FOREIGN KEY (`deliveryID`) REFERENCES `order_delivery_status` (`deliveryID`),
